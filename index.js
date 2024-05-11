@@ -3,8 +3,8 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const { shortUrl, findUrl } = require('./Services/shortUrl');
-require('dotenv').config();
 
+require('dotenv').config();
 
 app.use(express.json())
 
@@ -19,6 +19,10 @@ app.post('/shorturl', async (req, res) => {
 app.get('/:id', async (req, res) => {
   let url = await findUrl(req.params.id);
   res.redirect(url);
+})
+
+app.use((req, res) =>{
+  res.status(404).send("Invalid request");
 })
 
 app.listen(process.env.PORT || 3000, async () => {
