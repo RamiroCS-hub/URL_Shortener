@@ -12,7 +12,7 @@ const shortUrl = async (url) => {
     model.shortenUrl = process.env.URL + model.shortId;
     return model;
   }catch(e){
-    return e
+    return ''
   }
 }
 

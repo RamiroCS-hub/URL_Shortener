@@ -2,27 +2,31 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const cors = require('cors');
 const { shortUrl, findUrl } = require('./Services/shortUrl');
 
 require('dotenv').config();
 
-app.use(express.json())
+/* MIDDLEWARES */
+app.use(express.json());
+app.use(cors());
 
 app.post('/shorturl', async (req, res) => {
   let { url } = req.body;
   let shortU = await shortUrl(url);
-  if(url != shortU.url) res.status(500).json({ message: 'Error; `${shortU}`' });
+  if(url != shortU.url) res.status(400).json({ message: 'Error; `${shortU}`' });
   
-  res.status(200).json({message: `${shortU}`});
+  res.status(200).json(model);
 });
 
 app.get('/:id', async (req, res) => {
   let url = await findUrl(req.params.id);
+  if(url == '') res.status(404).json({  message: 'Error: Id not found'});
   res.redirect(url);
 })
 
 app.use((req, res) =>{
-  res.status(404).send("Invalid request");
+  res.status(404).send('Invalid request');
 })
 
 app.listen(process.env.PORT || 3000, async () => {
