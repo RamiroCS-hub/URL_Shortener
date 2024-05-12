@@ -20,7 +20,7 @@ app.post('/shorturl', async (req, res) => {
   let shortU = await shortUrl(url);
   if(url != shortU.url) res.status(400).json({ message: 'Error; `${shortU}`' });
   
-  res.status(200).json(model);
+  res.status(200).json(shortU);
 });
 
 app.get('/:id', async (req, res) => {
