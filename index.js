@@ -8,8 +8,12 @@ const { shortUrl, findUrl } = require('./Services/shortUrl');
 require('dotenv').config();
 
 /* MIDDLEWARES */
+app.use(cors({
+  allowedHeaders: '*',
+  allowedMethods: '*',
+  origin: '*'
+}));
 app.use(express.json());
-app.use(cors());
 
 app.post('/shorturl', async (req, res) => {
   let { url } = req.body;
