@@ -1,6 +1,4 @@
-import express from 'express'
-const app = express();
-import { urlModel } from '../Models/urls.js'
+import { urlModel } from '../Schemas/urlSchema.js'
 import crypto from 'node:crypto'
 import z from 'zod'
 
@@ -30,6 +28,6 @@ const postSchema = z.object({
   })
 });
 
-export function validatePost (object) {
+export function validateData (object) {
   return postSchema.safeParse(object);
 }
