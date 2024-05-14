@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const urlModel = require('../Models/urls.js');
 const crypto = require('node:crypto');
-
+const z = require('zod');
 
 const shortUrl = async (url) => {
   try{
@@ -25,7 +25,19 @@ const findUrl = async (id) => {
   }
 }
 
+const postSchema = z.object({
+  url: z.string().url({
+    invalid_type_error: 'Url must be valid'
+  })
+});
+
+function validatePost (object) {
+  return postSchema.safeParse(object);
+}
+
 module.exports = {
   shortUrl,
-  findUrl
+  findUrl,
+  validatePost
+
 };

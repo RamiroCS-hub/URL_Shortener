@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { shortUrl, findUrl } = require('./Services/shortUrl');
+const { shortUrl, findUrl, validatePost } = require('./Services/shortUrl');
 
 require('dotenv').config();
 
@@ -16,15 +16,18 @@ app.use(cors({
 app.use(express.json());
 
 app.post('/shorturl', async (req, res) => {
-  let { url } = req.body;
-  let shortU = await shortUrl(url);
-  if(url != shortU.url) res.status(400).json({ message: 'Error; `${shortU}`' });
+
+  const result = validatePost(req.body);
+
+  if(result.error) return res.status(400).json({ message: result.error.message });
+
+  const shortU = await shortUrl(result.data.url);
   
   res.status(200).json(shortU);
 });
 
 app.get('/:id', async (req, res) => {
-  let url = await findUrl(req.params.id);
+  const url = await findUrl(req.params.id);
   if(url == '') res.status(404).json({  message: 'Error: Id not found'});
   res.redirect(url);
 })
