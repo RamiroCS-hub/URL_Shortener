@@ -1,11 +1,10 @@
-'use strict';
-const express = require('express');
+import express from 'express'
 const app = express();
-const urlModel = require('../Models/urls.js');
-const crypto = require('node:crypto');
-const z = require('zod');
+import { urlModel } from '../Models/urls.js'
+import crypto from 'node:crypto'
+import z from 'zod'
 
-const shortUrl = async (url) => {
+export async function shortUrl (url) {
   try{
     let model = await urlModel.create({ url: url, shortId: crypto.randomBytes(2).toString('hex') });
   
@@ -16,7 +15,7 @@ const shortUrl = async (url) => {
   }
 }
 
-const findUrl = async (id) => {
+export async function findUrl (id) {
   try{
     let realUrl = await urlModel.findOne({ shortId: id }).exec();
     return realUrl.url;
@@ -31,13 +30,6 @@ const postSchema = z.object({
   })
 });
 
-function validatePost (object) {
+export function validatePost (object) {
   return postSchema.safeParse(object);
 }
-
-module.exports = {
-  shortUrl,
-  findUrl,
-  validatePost
-
-};

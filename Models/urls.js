@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const urlSchema = new Schema({ 
@@ -7,4 +7,4 @@ const urlSchema = new Schema({
   shortId: String
 })
 
-module.exports = mongoose.model('urlSchema', urlSchema);
+export const urlModel = mongoose.model('urlSchema', urlSchema);

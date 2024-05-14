@@ -1,11 +1,11 @@
 'use strict';
-const express = require('express');
+import express, { json } from 'express';
 const app = express();
-const mongoose = require('mongoose');
-const cors = require('cors');
-const { shortUrl, findUrl, validatePost } = require('./Services/shortUrl');
+import { connect } from 'mongoose';
+import cors from 'cors';
+import { shortUrl, findUrl, validatePost } from './Services/shortUrl.js';
 
-require('dotenv').config();
+import dotEnv from 'dotenv'
 
 /* MIDDLEWARES */
 app.use(cors({
@@ -13,8 +13,10 @@ app.use(cors({
   allowedMethods: '*',
   origin: '*'
 }));
-app.use(express.json());
+app.use(json());
+dotEnv.config();
 
+/* RUTAS */
 app.post('/shorturl', async (req, res) => {
 
   const result = validatePost(req.body);
@@ -37,6 +39,6 @@ app.use((req, res) =>{
 })
 
 app.listen(process.env.PORT || 3000, async () => {
-  await mongoose.connect(process.env.MONGODB_URL);
-  console.log('Listening on port', process.env.PORT);
+  await connect(process.env.MONGODB_URL);
+  console.log(`Listening on URL: http://localhost:${process.env.PORT}`);
 });
