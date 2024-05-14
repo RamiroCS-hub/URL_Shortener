@@ -2,17 +2,12 @@
 import express, { json } from 'express';
 const app = express();
 import { connect } from 'mongoose';
-import cors from 'cors';
 import { shortUrl, findUrl, validatePost } from './Services/shortUrl.js';
-
 import dotEnv from 'dotenv'
+import { corsConfig } from './Middlewares/cors.js';
 
 /* MIDDLEWARES */
-app.use(cors({
-  allowedHeaders: '*',
-  allowedMethods: '*',
-  origin: '*'
-}));
+app.use(corsConfig());
 app.use(json());
 dotEnv.config();
 
