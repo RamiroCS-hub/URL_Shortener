@@ -1,9 +1,14 @@
 import express from 'express';
-const router = express.Router();
+const apiRouter = express.Router();
 import { UrlController } from '../Controller/urlController.js';
+import { getUserId } from '../Middlewares/auth.js';
 
-router.post('/shorturl', UrlController.createShortUrl);
+apiRouter.get('/', UrlController.getAllUrls)
 
-router.get('/:id', UrlController.getOriginalUrl)
+apiRouter.post('/shorturl', getUserId, UrlController.createShortUrl);
 
-export default router;
+apiRouter.get('/:id', UrlController.getOriginalUrl)
+
+apiRouter.delete('/:id', UrlController.deleteUrl)
+
+export default apiRouter;
