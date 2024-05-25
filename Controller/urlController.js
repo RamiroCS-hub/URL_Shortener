@@ -1,21 +1,32 @@
+<<<<<<< HEAD
 import { findUrl, validateData, createShortUrl, findAllUrl, deleteUrlById, validatePatchData } from '../Services/urlService.js';
 import { DatabaseError } from '../Utils/errors.js';
+=======
+import { shortUrl, findUrl, validateData } from '../Services/urlService.js';
+>>>>>>> parent of e84b6ac (Delete and findAll url added)
 
 export class UrlController {
 
   static async createShortUrl(req, res){
+<<<<<<< HEAD
     const isValid = validateData(req.body);
     
     if(!isValid.success) return res.status(400).json({ message: result.error.message });
+=======
+
+    const result = validateData(req.body);
+>>>>>>> parent of e84b6ac (Delete and findAll url added)
   
-    const shortU = await createShortUrl(result.data.url, req.userId);
-    if(shortU instanceof DatabaseError) return res.status(500).json({ message: shortU.message });
+    if(result.error) return res.status(400).json({ message: result.error.message });
+  
+    const shortU = await shortUrl(result.data.url);
     
-    res.status(200).json({data: shortU});
+    res.status(200).json(shortU);
   }
 
   static async getOriginalUrl (req, res) {
     const url = await findUrl(req.params.id);
+<<<<<<< HEAD
     if(url == '') return res.status(404).json({  message: 'Error: Id not found'});
     if(url instanceof DatabaseError) return res.status(500).json({ message: url.message });
 
@@ -46,4 +57,9 @@ export class UrlController {
     return res.status(200).json({ message: patchedUrl });
   }
 
+=======
+    if(url == '') res.status(404).json({  message: 'Error: Id not found'});
+    res.redirect(url);
+  }
+>>>>>>> parent of e84b6ac (Delete and findAll url added)
 }

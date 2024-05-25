@@ -1,12 +1,16 @@
 import express from 'express';
-const apiRouter = express.Router();
+const router = express.Router();
 import { UrlController } from '../Controller/urlController.js';
-import { getUserId } from '../Middlewares/auth.js';
 
+<<<<<<< HEAD
 apiRouter.get('/', getUserId, UrlController.getAllUrls)
+=======
+router.post('/shorturl', UrlController.createShortUrl);
+>>>>>>> parent of e84b6ac (Delete and findAll url added)
 
-apiRouter.post('/shorturl', getUserId, UrlController.createShortUrl);
+router.get('/:id', UrlController.getOriginalUrl)
 
+<<<<<<< HEAD
 apiRouter.get('/:id', UrlController.getOriginalUrl)
 
 apiRouter.delete('/:id', UrlController.deleteUrl)
@@ -14,3 +18,6 @@ apiRouter.delete('/:id', UrlController.deleteUrl)
 apiRouter.patch('/:id', UrlController.patchUrl);
 
 export default apiRouter;
+=======
+export default router;
+>>>>>>> parent of e84b6ac (Delete and findAll url added)

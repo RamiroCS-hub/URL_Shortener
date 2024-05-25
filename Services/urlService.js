@@ -1,8 +1,8 @@
-import { UrlModel } from '../Models/index.js'
+import { urlModel } from '../Schemas/urlSchema.js'
 import crypto from 'node:crypto'
 import z from 'zod'
-import { DatabaseError } from '../Utils/errors.js';
 
+<<<<<<< HEAD
 
 export const patchUrlById = async (originalUrl, id) => {
   try {
@@ -32,22 +32,33 @@ export const findAllUrl = async (id) => {
 }
 
 export async function createShortUrl (url, id) {
+=======
+export async function shortUrl (url) {
+>>>>>>> parent of e84b6ac (Delete and findAll url added)
   try{
-    let model = await UrlModel.create({ url: url, shortId: crypto.randomBytes(2).toString('hex'), userId: id });
+    let model = await urlModel.create({ url: url, shortId: crypto.randomBytes(2).toString('hex') });
   
     model.shortenUrl = process.env.URL + model.shortId;
     return model;
   }catch(e){
+<<<<<<< HEAD
     return new DatabaseError('Couldn"t create the short url');
+=======
+    return ''
+>>>>>>> parent of e84b6ac (Delete and findAll url added)
   }
 }
 
 export async function findUrl (id) {
   try{
-    const realUrl = await UrlModel.findOne({ shortId: id }).exec();
+    let realUrl = await urlModel.findOne({ shortId: id }).exec();
     return realUrl.url;
   }catch(e){
+<<<<<<< HEAD
     return new DatabaseError('Couldn"t find the url');
+=======
+    return e;
+>>>>>>> parent of e84b6ac (Delete and findAll url added)
   }
 }
 
