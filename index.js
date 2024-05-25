@@ -4,6 +4,7 @@ const app = express();
 import dotEnv from 'dotenv'
 import { corsConfig } from './Middlewares/cors.js';
 import router from './Routes/api.js';
+import mongoose from 'mongoose';
 
 /* MIDDLEWARES */
 app.use(corsConfig());
@@ -18,6 +19,11 @@ app.use((req, res) =>{
 })
 
 app.listen(process.env.PORT || 3000, async () => {
-  await connect(process.env.MONGODB_URL);
+  mongoose.connect(process.env.MONGODB_URL)
+  var db = mongoose.connection;
+  db.on('error', console.error.bind(console, 'connection error:'));
+  db.once('open', function callback () {
+    console.log("Conecction open");
+  });
   console.log(`Listening on URL: http://localhost:${process.env.PORT}`);
 });
