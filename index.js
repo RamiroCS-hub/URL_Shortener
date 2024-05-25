@@ -3,7 +3,7 @@ import express, { json } from 'express';
 const app = express();
 import dotEnv from 'dotenv'
 import { corsConfig } from './Middlewares/cors.js';
-import { apiRouter } from './Routes/index.js';
+import { apiRouter, authRouter } from './Routes/index.js';
 import { auth } from 'express-oauth2-jwt-bearer';
 import sequelize from './Config/db.js';
 
@@ -18,10 +18,10 @@ const jwtCheck = auth({
   tokenSigningAlg: 'RS256'
 });
 
-app.use(jwtCheck);
-
 /* RUTAS */
 app.use('/api', apiRouter);
+
+app.use('/auth', jwtCheck, authRouter)
 
 app.use((req, res) =>{
   res.status(404).send('Invalid request');
