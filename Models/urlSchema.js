@@ -3,9 +3,10 @@ import { DataTypes } from 'sequelize';
 
 export const UrlModel = sequelize.define('link' , {
   userId: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false
   },
   shortId: DataTypes.STRING,
   originalUrl: DataTypes.STRING,
+  shortenUrl: DataTypes.STRING
 });

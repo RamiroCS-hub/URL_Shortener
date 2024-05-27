@@ -4,11 +4,11 @@ import z from 'zod'
 import { DatabaseError } from '../Utils/errors.js';
 
 
-export async function createShortUrl (url, id) {
+export async function createShortUrl (url, id = 0) {
   try{
-    let model = await UrlModel.create({ url: url, shortId: crypto.randomBytes(2).toString('hex'), userId: id });
+    let model = await UrlModel.create({ originalUrl: url, shortId: crypto.randomBytes(2).toString('hex'), userId: id });
   
-    model.shortenUrl = process.env.URL + model.shortId;
+    model.shortenUrl = process.env.API_URL + model.shortId;
     return model;
   }catch(e){
     console.log(e);
@@ -18,9 +18,10 @@ export async function createShortUrl (url, id) {
 
 export async function findUrl (id) {
   try{
-    const realUrl = await UrlModel.findOne({ shortId: id }).exec();
-    return realUrl.url;
+    const realUrl = await UrlModel.findOne({ where: { shortId: id } });
+    return realUrl.dataValues.originalUrl;
   }catch(e){
+    console.log(e)
     return new DatabaseError('Couldn"t find the url');
   }
 }

@@ -5,11 +5,12 @@ import { DatabaseError } from '../Utils/errors.js';
 
 export const findUser = async (id) => {
   try {
-    const user = await User.find({where: {authId: id}});
+    const user = await User.findOne({where: {authId: id}});
     if(!(user.length == '')) return user;
     await User.create({ authId: id})
     return ''
   } catch (e) {
+    console.log(e);
     return new DatabaseError('Error finding the user');
   }
 }
@@ -19,6 +20,7 @@ export const patchUrlById = async (originalUrl, id) => {
     const patchedUrl = await UrlModel.update({originalUrl: originalUrl }, {where: {shortId: id }});
     return patchedUrl;
   } catch (e) {
+    console.log(e);
     return new DatabaseError('Error updating the url');
   }
 }
@@ -28,6 +30,7 @@ export const deleteUrlById = async (id) => {
     const deletedUrl = await UrlModel.destroy({where: {shortId: id}});
     return deletedUrl;
   } catch (e) {
+    console.log(e);
     return new DatabaseError('Error deleting the url');
   }
 }
@@ -37,6 +40,7 @@ export const findAllUrl = async (id) => {
     const allUrls = UrlModel.findAll({where: {userId: id}});
     return allUrls;
   } catch (e) {
+    console.log(e);
     return new DatabaseError('Could not find any Url');
   }
 }
