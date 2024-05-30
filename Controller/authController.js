@@ -1,15 +1,26 @@
 import { findAllUrl, deleteUrlById, validatePatchData, findUser } from '../Services/authService.js';
 import { DatabaseError } from '../Utils/errors.js';
+import { checkCache } from '../Utils/redis.js';
 
 
 export class AuthController {
   static async getAllUrls(req, res){
-    const userExist = await findUser(req.userId);
-    if(userExist == '') return res.status(200).send('The user not have any links');
+
+    const userCacheCheck = await checkCache(`user:${req.userId}`, async () => {
+      const userExist = await findUser(req.userId);
+      return userExist
+    }).catch(err => {
+      return res.status(500).json({ message: 'Error getting the user from the cache', err: err})
+    })
     
-    const url = await findAllUrl(userExist.id)
-    if(url instanceof DatabaseError) return res.status(500).json({ message:url.message });
-    return res.status(200).json({data: url})
+    const urlCacheCheck = await checkCache(`urls:${userCacheCheck.id}`, async () => {
+      const url = await findAllUrl(userCacheCheck.id)
+      return url
+    }).catch(err => {
+      return res.status(500).json({ message: 'Error getting the url from the cache', err: err})
+    })
+
+    return res.status(200).json({data: urlCacheCheck})
   }
   
   static async deleteUrl(req, res){
