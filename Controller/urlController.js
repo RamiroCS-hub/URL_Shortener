@@ -26,8 +26,9 @@ export class UrlController {
     const url = await findUrl(req.params.id);
     if(url == '') return res.status(404).json({  message: 'Error: Id not found'});
     if(url instanceof DatabaseError) return res.status(500).json({ message: url.message });
-
-    res.status(200).send(url);
+    
+    await updateClicks(req.params.id, url.clicks)
+    res.status(200).send(url.originalUrl);
   }
 
 }

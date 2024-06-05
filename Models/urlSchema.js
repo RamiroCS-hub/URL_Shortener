@@ -8,5 +8,6 @@ export const UrlModel = sequelize.define('link' , {
   },
   shortId: DataTypes.STRING,
   originalUrl: DataTypes.STRING,
-  shortenUrl: DataTypes.STRING
+  shortenUrl: DataTypes.STRING,
+  clicks: DataTypes.INTEGER
 });

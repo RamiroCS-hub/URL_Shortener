@@ -1,6 +1,6 @@
 import Redis from 'redis';
 import dotenv from 'dotenv';
-import { DatabaseError } from './utils.js';
+import { DatabaseError } from './errors.js';
 
 dotenv.config()
 

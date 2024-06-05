@@ -1,4 +1,4 @@
-import { findAllUrl, deleteUrlById, validatePatchData, findUser } from '../Services/authService.js';
+import { findAllUrl, deleteUrlById, validatePatchData, findUser, patchUrlById } from '../Services/authService.js';
 import { DatabaseError } from '../Utils/errors.js';
 import { checkCache } from '../Utils/redis.js';
 
