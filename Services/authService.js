@@ -6,9 +6,9 @@ import { DatabaseError } from '../Utils/errors.js';
 export const findUser = async (id) => {
   try {
     const user = await User.findOne({where: {authId: id}});
-    if(!(user.length == '')) return user;
-    await User.create({ authId: id})
-    return ''
+    if(user) return user;
+    const newUser = await User.create({ authId: id})
+    return newUser
   } catch (e) {
     console.log(e);
     return new DatabaseError('Error finding the user');
