@@ -6,7 +6,7 @@ export class UrlController {
 
   static async createShortUrl(req, res){
     const isValid = validateData(req.body);
-    if(!isValid.success) return res.status(400).json({ message: isValid });
+    if(!isValid.success) return res.status(400).send({ message: isValid });
     console.log(req.body.url)
 
     if(req.token != undefined){
@@ -17,9 +17,9 @@ export class UrlController {
     }
 
     const shortU = await createShortUrl(req.body.url, req.id);
-    if(shortU instanceof DatabaseError) return res.status(500).json({ message: shortU.message });
+    if(shortU instanceof DatabaseError) return res.status(500).send({ message: shortU.message });
     
-    return res.status(200).json({data: shortU});
+    return res.status(200).send({data: shortU});
   }
 
   static async getOriginalUrl (req, res) {

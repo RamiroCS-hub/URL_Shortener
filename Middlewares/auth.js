@@ -13,6 +13,7 @@ export const getUserId = async (req, res, next) => {
   })
 
   console.log(userData.data);
+  if(!userData.data) return res.status(403).send({ message: 'Cant retrieve user info' });
   req.userId = userData.data.email;
   next();
 }

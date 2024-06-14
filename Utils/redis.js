@@ -22,7 +22,7 @@ export const checkCache = async (key, cb) => {
         console.log(err)
         rej(err)
       })
-    if(!response) {
+    if(response) {
       redisClient.quit()
       console.log('Response 27 is:', response)
       return res(JSON.parse(response))

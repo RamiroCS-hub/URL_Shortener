@@ -5,6 +5,7 @@ export const authPublicEndpoint = (req, res, next) => {
   if(token) {
     console.log('Se dio un token')
     getUserId(req, res, next);
+    return
   }
   req.token = undefined;
   req.id = 0;

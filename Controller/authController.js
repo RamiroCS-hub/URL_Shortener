@@ -20,8 +20,10 @@ export class AuthController {
     }).catch(err => {
       return res.status(500).json({ message: 'Error getting the url from the cache', err: err})
     })
-    if(!urlCacheCheck) return res.status(200).json({message: 'User dont have any link'})
-    return res.status(200).json({data: urlCacheCheck})
+    
+    if(!urlCacheCheck || !urlCacheCheck.lenght) return res.status(206).send('User dont have any link')
+    console.log('paso')
+    return res.status(200).send(urlCacheCheck)
   }
   
   static async deleteUrl(req, res){
