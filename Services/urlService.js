@@ -8,7 +8,7 @@ export const updateClicks = (id, clicks) => {
   try {
     const newClicks = UrlModel.update({clicks: (clicks+1)},
       {
-      where:{id: id},
+      where:{shortId: id},
     })
     return newClicks
   } catch (e) {
@@ -18,13 +18,14 @@ export const updateClicks = (id, clicks) => {
 
 export async function createShortUrl (url, id = 0) {
   try{
-    let model = await UrlModel.create({ originalUrl: url, shortId: crypto.randomBytes(2).toString('hex'), userId: id });
+    let model = await UrlModel.create({ originalUrl: url, shortId: crypto.randomBytes(2).toString('hex'), userId: id })
   
-    model.shortenUrl = process.env.API_URL + model.shortId;
-    return model;
+    model.shortenUrl = process.env.API_URL + model.shortId
+    model.save()
+    return model
   }catch(e){
-    console.log(e);
-    return new DatabaseError('Couldn"t create the short url');
+    console.log(e)
+    return new DatabaseError('Couldn"t create the short url')
   }
 }
 

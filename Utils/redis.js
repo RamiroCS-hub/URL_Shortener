@@ -39,3 +39,22 @@ export const checkCache = async (key, cb) => {
     return res(result)
   })
 }
+
+export const updateCache = async (key) => {
+  const redisClient = await Redis.createClient({
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_HOSTNAME,
+        port: process.env.REDIS_PORT
+    }
+  }).connect()
+    .catch( err => {
+      console.error('Ocurrió un error de conexión: ' + err)
+      return rej(err)
+    })
+  return new Promise ( (res, rej) => {
+    redisClient.del(key)
+    .then(data => res(data))
+    .catch(err => rej(err))
+  })
+}
