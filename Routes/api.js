@@ -1,9 +1,10 @@
 import express from 'express';
 const router = express.Router();
 import { UrlController } from '../Controller/urlController.js';
+import { authPublicEndpoint } from '../Middlewares/publicAuth.js';
 
-router.post('/shorturl', UrlController.createShortUrl);
+apiRouter.post('/shorturl', authPublicEndpoint, UrlController.createShortUrl);
 
-router.get('/:id', UrlController.getOriginalUrl)
+apiRouter.get('/:id', UrlController.getOriginalUrl);
 
-export default router;
+export default apiRouter;
