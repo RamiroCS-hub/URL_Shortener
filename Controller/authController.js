@@ -40,8 +40,7 @@ export class AuthController {
   static async patchUrl(req, res){
     const isValid = validatePatchData(req.body)
   
-    if(isValid.success) return res.status(401).json({ message: isValid.message });
-  
+    if(!isValid.success) return res.status(403).json({ message: isValid.message });
     const patchedUrl = await patchUrlById(req.body.originalUrl, req.params.id);
     if(patchedUrl instanceof DatabaseError) return res.status(400).json({ message: patchedUrl });
   

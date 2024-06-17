@@ -17,7 +17,7 @@ export const findUser = async (id) => {
 
 export const patchUrlById = async (originalUrl, id) => {
   try {
-    const patchedUrl = await UrlModel.update({originalUrl: originalUrl }, {where: {shortId: id }});
+    const patchedUrl = await UrlModel.update({ originalUrl: originalUrl }, { where: { shortId: id }});
     return patchedUrl;
   } catch (e) {
     console.log(e);
