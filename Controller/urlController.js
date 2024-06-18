@@ -30,7 +30,7 @@ export class UrlController {
     if(url instanceof DatabaseError) return res.status(500).json({ message: url.message });
     
     await updateClicks(req.params.id, url.clicks)
-    res.status(200).send(url.originalUrl);
+    res.redirect(url.originalUrl);
   }
 
 }
