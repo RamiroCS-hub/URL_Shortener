@@ -1,10 +1,8 @@
-import express from 'express';
-const apiRouter = express.Router();
-import { UrlController } from '../Controller/urlController.js';
-import { authPublicEndpoint } from '../Middlewares/publicAuth.js';
+import express from 'express'
+import { UrlController } from '../Controller/urlController.js'
+import { authPublicEndpoint } from '../Middlewares/publicAuth.js'
+const apiRouter = express.Router()
 
-apiRouter.post('/shorturl', authPublicEndpoint, UrlController.createShortUrl);
+apiRouter.post('/shorturl', authPublicEndpoint, UrlController.createShortUrl)
 
-apiRouter.get('/:id', UrlController.getOriginalUrl);
-
-export default apiRouter;
+export default apiRouter

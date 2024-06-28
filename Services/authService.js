@@ -1,54 +1,53 @@
 import { UrlModel, User } from '../Models/index.js'
 import z from 'zod'
-import { DatabaseError } from '../Utils/errors.js';
-
+import { DatabaseError } from '../Utils/errors.js'
 
 export const findUser = async (id) => {
   try {
-    const user = await User.findOne({where: {authId: id}});
-    if(user) return user;
-    const newUser = await User.create({ authId: id})
+    const user = await User.findOne({ where: { authId: id } })
+    if (user) return user
+    const newUser = await User.create({ authId: id })
     return newUser
   } catch (e) {
-    console.log(e);
-    return new DatabaseError('Error finding the user');
+    console.log(e)
+    return new DatabaseError('Error finding the user')
   }
 }
 
 export const patchUrlById = async (originalUrl, id) => {
   try {
-    const patchedUrl = await UrlModel.update({ originalUrl: originalUrl }, { where: { shortId: id }});
-    return patchedUrl;
+    const patchedUrl = await UrlModel.update({ originalUrl }, { where: { shortId: id } })
+    return patchedUrl
   } catch (e) {
-    console.log(e);
-    return new DatabaseError('Error updating the url');
+    console.log(e)
+    return new DatabaseError('Error updating the url')
   }
 }
 
-export const deleteUrlById = async (id) => {
+export const deleteUrlById = async (userId, id) => {
   try {
-    const deletedUrl = await UrlModel.destroy({where: {shortId: id}});
-    return deletedUrl;
+    const deletedUrl = await UrlModel.destroy({ where: { userId, shortId: id } })
+    return deletedUrl
   } catch (e) {
-    console.log(e);
-    return new DatabaseError('Error deleting the url');
+    console.log(e)
+    return new DatabaseError('Error deleting the url')
   }
 }
 
 export const findAllUrl = async (id) => {
   try {
-    const allUrls = UrlModel.findAll({where: {userId: id}});
-    return allUrls;
+    const allUrls = UrlModel.findAll({ where: { userId: id } })
+    return allUrls
   } catch (e) {
-    console.log(e);
-    return new DatabaseError('Could not find any Url');
+    console.log(e)
+    return new DatabaseError('Could not find any Url')
   }
 }
 
 const patchSchema = z.object({
-  originalUrl: z.string().url(),
+  originalUrl: z.string().url()
 })
 
 export const validatePatchData = (object) => {
-  return patchSchema.safeParse(object);
+  return patchSchema.safeParse(object)
 }

@@ -31,10 +31,13 @@ export class AuthController {
   }
   
   static async deleteUrl(req, res){
-    const deletedUrl = await deleteUrlById(req.params.id)
-    if(deletedUrl instanceof DatabaseError) return res.status(500).json({ message:url.message });
+    const userExist = await findUser(req.userId);
+    if(userExist instanceof DatabaseError) return res.status(404).json({ message: 'User not found', err: userExist.message })
+      
+    const deletedUrl = await deleteUrlById(userExist.id, req.params.id)
+    if(deletedUrl instanceof DatabaseError) return res.status(500).json({ message:url.message })
   
-    return res.status(200).json({ data: deletedUrl });
+    return res.status(200).json({ data: deletedUrl })
   }
   
   static async patchUrl(req, res){

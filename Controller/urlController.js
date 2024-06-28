@@ -6,22 +6,22 @@ import { DatabaseError } from '../Utils/errors.js';
 export class UrlController {
 
   static async createShortUrl(req, res){
-    const isValid = validateData(req.body)
-    if(!isValid.success) return res.status(400).send({ message: isValid })
-    console.log(req.body.url)
-    console.log(req.token)
+    const isValid = validateData(req.body);
+    if(!isValid.success) return res.status(400).send({ message: isValid });
+    console.log(req.body.url);
+    console.log(req.token);
     if(req.token != undefined){
-      const userExist = await findUser(req.userId)
+      const userExist = await findUser(req.userId);
       if(userExist == '') return res.status(400).send('The user not have any links');
-      console.log(userExist)
-      req.id = userExist.id
+      console.log(userExist);
+      req.id = userExist.id;
     }
-    console.log(req.id)
+    console.log(req.id);
 
-    const shortU = await createShortUrl(req.body.url, req.id)
-    if(shortU instanceof DatabaseError) return res.status(500).send({ message: shortU.message })
+    const shortU = await createShortUrl(req.body.url, req.id);
+    if(shortU instanceof DatabaseError) return res.status(500).send({ message: shortU.message });
     
-    return res.status(200).send({data: shortU})
+    return res.status(200).send({data: shortU});
   }
 
   static async getOriginalUrl (req, res) {
@@ -29,7 +29,7 @@ export class UrlController {
     if(url == '') return res.status(404).json({  message: 'Error: Id not found'});
     if(url instanceof DatabaseError) return res.status(500).json({ message: url.message });
     
-    await updateClicks(req.params.id, url.clicks)
+    await updateClicks(req.params.id, url.clicks);
     res.redirect(url.originalUrl);
   }
 
