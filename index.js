@@ -6,6 +6,7 @@ import { apiRouter, authRouter } from './Routes/index.js'
 import { auth } from 'express-oauth2-jwt-bearer'
 import sequelize from './Config/db.js'
 import { UrlController } from './Controller/urlController.js'
+import { getUserId } from './Middlewares/auth.js'
 const app = express()
 
 /* MIDDLEWARES */
@@ -22,7 +23,7 @@ const jwtCheck = auth({
 /* RUTAS */
 app.use('/api', apiRouter)
 
-app.use('/auth', jwtCheck, authRouter)
+app.use('/auth', jwtCheck, getUserId, authRouter)
 
 app.get('/:id', UrlController.getOriginalUrl)
 

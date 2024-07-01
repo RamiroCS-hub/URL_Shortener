@@ -30,6 +30,7 @@ export class AuthController {
 
   static async deleteUrl (req, res) {
     const userExist = await findUser(req.userId)
+    console.log(req.userId)
     if (userExist instanceof DatabaseError) return res.status(404).json({ message: 'User not found', err: userExist.message })
 
     const deletedUrl = await deleteUrlById(userExist.id, req.params.id)
@@ -45,6 +46,6 @@ export class AuthController {
     const patchedUrl = await patchUrlById(req.body.originalUrl, req.params.id)
     if (patchedUrl instanceof DatabaseError) return res.status(400).json({ message: patchedUrl })
 
-    return res.status(200).json({ message: patchedUrl })
+    return res.status(200).json({ data: patchedUrl })
   }
 }
