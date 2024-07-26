@@ -23,9 +23,10 @@ export class AuthController {
     // })
     const url = await findAllUrl(userExist.id)
     if (url instanceof DatabaseError) return res.status(500).send({ message: 'Database error', error: url.message })
-    console.log(url)
-    if (!url) return res.status(206).send({ message: 'User dont have any link', data: url })
-    return res.status(200).send({ message: 'User Links Found', data: url })
+    console.log('Los url son', url)
+    const newUrl = url.map((link) => { return link.dataValues })
+    if (!url) return res.status(206).send({ message: 'User dont have any link', data: newUrl })
+    return res.status(200).send({ message: 'User Links Found', data: newUrl })
   }
 
   static async deleteUrl (req, res) {
